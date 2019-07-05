@@ -31,6 +31,35 @@ dropTables = () => {
     );
 }
 
+createRegion = () => {
+    knex.schema.createTable('FBICrimeRegion', table => {
+        table.increments('regionID');
+        table.string('region');
+    }).then((response, err) => {
+        if (err) throw err;
+    });
+}
 
+createArea = () => {
+    knex.schema.createTable('FBICrimeArea', table => {
+        table.increments('areaID');
+        table.string('area');
+        table.integer('regionID').unsigned();
+        table.foreign('regionID').references('FBICrimeRegion.regionID');
+    }).then((response, err) => {
+        if (err) throw err;
+    });
+}
+
+createState = () => {
+    knex.schema.createTable('FBICrimeState', table => {
+        table.increments('stateID');
+        table.string('state');
+        table.integer('areaID').unsigned();
+        table.foreign('areaID').references('FBICrimeArea.areaID');
+    }).then((response, err) => {
+        if (err) throw err;
+    });
+}
 
 module.exports = knex;
