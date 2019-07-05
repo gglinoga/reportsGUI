@@ -57,6 +57,17 @@ createState = () => {
         table.string('state');
         table.integer('areaID').unsigned();
         table.foreign('areaID').references('FBICrimeArea.areaID');
+        table.integer('population');
+        table.integer('violentCrime');
+        table.integer('murderManSlaughter');
+        table.integer('rapeRevised');
+        table.integer('rapeLegacy');
+        table.integer('robbery');
+        table.integer('aggravatedAssault');
+        table.integer('propertyCrime');
+        table.integer('larcenyTheft');
+        table.integer('gta');
+
     }).then((response, err) => {
         if (err) throw err;
     });
