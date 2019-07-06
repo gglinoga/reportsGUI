@@ -13,3 +13,15 @@ app.use(bodyParser.json())
 app.listen(PORT, () => {
     console.log("app listening on PORT " + PORT);
 });
+
+app.get('/api/FBICrime/states', (req, res) => {
+    console.log('get all states');
+    knex.select().from('FBICrimeState')
+    .then(function (response,err){
+        if(err) throw err;
+        console.log(response);
+        res.json(response);
+    }).finally(() => {
+        console.log('done');
+    })
+})

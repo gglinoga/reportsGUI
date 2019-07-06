@@ -12,7 +12,6 @@ const knex = require('knex')(options);
 console.log('knex connected');
 
 
-
 dropTables = () => {
     knex.schema.hasTable('FBICrimeState').then(
         knex.schema.dropTable('FBICrimeState').then(() => {
@@ -37,6 +36,7 @@ createRegion = () => {
         table.string('region');
     }).then((response, err) => {
         if (err) throw err;
+        createArea();
     });
 }
 
@@ -48,6 +48,7 @@ createArea = () => {
         table.foreign('regionID').references('FBICrimeRegion.regionID');
     }).then((response, err) => {
         if (err) throw err;
+        createState();
     });
 }
 
@@ -67,10 +68,21 @@ createState = () => {
         table.integer('propertyCrime');
         table.integer('larcenyTheft');
         table.integer('gta');
-
     }).then((response, err) => {
         if (err) throw err;
     });
 }
+
+let start = (err) => {
+    // dropTables();
+    if (err) {
+        console.log(err)
+    } else {
+        createRegion();
+    }
+}
+
+// start();
+
 
 module.exports = knex;
