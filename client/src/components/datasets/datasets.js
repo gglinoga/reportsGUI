@@ -8,7 +8,7 @@ const style ={
         fontFamily: "'Questrial', sans-serif",
         color: "black",
         margin: "20px 30px 20px", 
-        backgroundColor: "#d2d2d2",
+        backgroundColor: "#d3d3d3",
         // backgroundImage: "linear-gradient(to bottom, blue, red)",
         // border: "grey 2px solid",
         borderRadius: "10px",
@@ -21,7 +21,7 @@ const style ={
 }
 
 const Datasets = props => (
-    <div id="card" style={style.card}>
+    <div id="card" style={style.card} onClick={()=>props.handleClick(props.name)}>
         <p>{props.name}</p>
         {/* <img src={props.img} style = {style.img}></img> */}
     </div>

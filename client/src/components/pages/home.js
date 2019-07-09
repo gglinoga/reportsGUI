@@ -20,6 +20,13 @@ class Home extends Component {
         dataVis: "Mobile OS Market-Share"
     }
 
+handleClick = (name) => {
+    console.log(name)
+    this.setState({
+        dataVis: name
+    })
+}
+
 render() {
     return(
         <div>
@@ -30,6 +37,7 @@ render() {
                             {this.state.datasets.map(table => (
                                 <Datasets 
                                     name={table.name}
+                                    handleClick={this.handleClick}
                                     // img={table.img}
                                 />              
                             ))}

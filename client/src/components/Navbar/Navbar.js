@@ -43,10 +43,10 @@ class Navbar extends Component {
 render () {
     return(
         <div>
-        <nav class="home">
-        <div class="row" style={navStyle}>
-        <div class="col-12" style={navCenter}>
-                <a href="/"style={a}><i class="fas fa-home"></i>   </a>
+        <nav className="home">
+        <div className="row" style={navStyle}>
+        <div className="col-12" style={navCenter}>
+                <a href="/"style={a}><i className="fas fa-home"></i>   </a>
         </div>
         {/* <div class="col-4" style={navCenter}>
                 <p style={navCenter}><i class="fas fa-book-reader"></i></p>
