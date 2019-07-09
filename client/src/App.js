@@ -1,9 +1,11 @@
 import React from 'react';
+import Home from "../src/components/pages/home.js";
 
 function App() {
   return (
-    <h1>test</h1>
-  );
+    <Home
+    />
+  )
 }
 
 export default App;

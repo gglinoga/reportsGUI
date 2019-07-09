@@ -4,6 +4,9 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000
 
+require("./routes/APIroutes.js")(app);
+
+
 app.use(bodyParser.urlencoded({
     extended: true
 }))
@@ -14,14 +17,14 @@ app.listen(PORT, () => {
     console.log("app listening on PORT " + PORT);
 });
 
-app.get('/api/FBICrime/states', (req, res) => {
-    console.log('get all states');
-    knex.select().from('FBICrimeState')
-    .then(function (response,err){
-        if(err) throw err;
-        console.log(response);
-        res.json(response);
-    }).finally(() => {
-        console.log('done');
-    })
-})
+// app.get('/api/FBICrime/states', (req, res) => {
+//     console.log('get all states');
+//     knex.select().from('FBICrimeState')
+//     .then(function (response,err){
+//         if(err) throw err;
+//         console.log(response);
+//         res.json(response);
+//     }).finally(() => {
+//         console.log('done');
+//     })
+// })
