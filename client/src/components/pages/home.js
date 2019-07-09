@@ -17,7 +17,7 @@ class Home extends Component {
                 'name': 'Home Sales, United States',
                 'table': 'home_sales'
             }],
-        dataVis: "Mobile OS Market-Share"
+        dataVis: "Select a data set"
     }
 
 handleClick = (name) => {
@@ -25,6 +25,10 @@ handleClick = (name) => {
     this.setState({
         dataVis: name
     })
+}
+
+componentWillMount() {
+    console.log('will Mount');
 }
 
 render() {
