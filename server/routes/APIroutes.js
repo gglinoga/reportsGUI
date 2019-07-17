@@ -16,7 +16,7 @@ module.exports = function (app) {
     app.get('/api/mobile_os/usage', (req, res) => {
         console.log('get all mobile_os usage');
         knex.select().from("mobile_os_usage")
-            .then((response, err) {
+            .then((response, err) => {
                 if (err) throw err;
                 console.log(response);
                 res.json(response);
