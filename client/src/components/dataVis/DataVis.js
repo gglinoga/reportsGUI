@@ -1,4 +1,5 @@
 import React from "react";
+import * as d3 from "d3";
 
 const style = {
     datavis: {
@@ -19,11 +20,27 @@ const style = {
     }
 }
 
-const DataVis = props => (
-    <div style={style.datavis}>
-        <h1>DataVis</h1>
-        <p>{props.name}</p>
-        <p>{props.table}</p>
+let data = [4, 8, 15, 16, 23, 4, 14, 1];
+console.log('script test')
+let x = d3.scaleLinear()
+    .domain([0, d3.max(data)])
+    .range([0, 420]);
+
+d3.select(".chart")
+  .selectAll("div")
+    .data(data)
+  .enter().append("div")
+    .style("width", function(d) { return x(d) + "px"; })
+    .text(function(d) { return d; });
+
+const DataVis = (props) => (
+    <div>
+        <h1>chart</h1>
+        <div className="chart"></div>
+    {/* // style={style.datavis}>
+    //     <h1>DataVis</h1>
+    //     <p>{props.name}</p>
+    //     <p>{props.table}</p> */}
     </div>
 )
 
