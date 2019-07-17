@@ -37,7 +37,7 @@ module.exports = function (app) {
             })
     })
 
-    app.get('/api/aegypti/aegypti', (req, res); => {
+    app.get('/api/aegypti/aegypti', (req, res) => {
         console.log('get all aegypti');
         knex.select().from('aegypti')
             .then((response, err) => {
