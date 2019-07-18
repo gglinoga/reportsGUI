@@ -4,29 +4,30 @@ import React, {
 import Datasets from "../datasets/datasets.js";
 import Navbar from "../Navbar/Navbar.js";
 // import DataVis from "../dataVis/DataVis.js";
-import Modal from "../Modal/Modal.js";
+// import Modal from "../Modal/Modal.js";
 import XYFrame from "../dataVis/XYFrame.js";
 import DataVis from "../dataVis/DataVis.js";
 
 class Home extends Component {
 
     state = {
-        datasets: [{
-                'name': "Mobile OS Market-Share",
-                'table': 'mobile_os_usage'
-            },
-            {
-                'name': 'FBI Crime Statistics',
-                'table': 'FBICrimeState'
-            },
-            {
-                'name': 'Home Sales, United States',
-                'table': 'home_sales'
-            },
-            {
-                'name': 'Theaters',
-                'table': 'theaters'
-            },
+        datasets: [
+            // {
+            //     'name': "Mobile OS Market-Share",
+            //     'table': 'mobile_os_usage'
+            // },
+            // {
+            //     'name': 'FBI Crime Statistics',
+            //     'table': 'FBICrimeState'
+            // },
+            // {
+            //     'name': 'Home Sales, United States',
+            //     'table': 'home_sales'
+            // },
+            // {
+            //     'name': 'Theaters',
+            //     'table': 'theaters'
+            // },
             {
                 'name': 'Aegypti',
                 'table': 'aegypti'
@@ -38,13 +39,13 @@ class Home extends Component {
         data: []
     }
 
-    showModal = () => {
-        this.setState({
-            ...this.state,
-            show: !this.state.show
-        })
-        console.log(this.state.show);
-    }
+    // showModal = () => {
+    //     this.setState({
+    //         ...this.state,
+    //         show: !this.state.show
+    //     })
+    //     console.log(this.state.show);mdoal
+    // }
 
     handleClick = (name, table) => {
         console.log(name)
@@ -53,7 +54,7 @@ class Home extends Component {
             table: table
         })
         console.log(table)
-        console.log(this.state.table)
+        // console.log(this.state.table)
         // this.showModal();
         fetch(`/api/${table}`, {
             method: 'GET',
@@ -69,6 +70,7 @@ class Home extends Component {
            .catch(err => {
                if (err) throw err
            });
+        //    window.location.replace('/chart');
     }
 
     componentWillMount() {
@@ -78,16 +80,16 @@ class Home extends Component {
     render() {
         return ( <div>
                 <Navbar/>
-                <Modal showModal = {
+                {/* <Modal showModal = {
                     this.showModal
                 }
                 show = {
                     this.state.show
                 } >
-                </Modal> 
+                </Modal>  */}
                 <div className = "row" >
                     <div className = "col-12" >
-                        <div className = "d-flex flex-wrap justify-content-center" > {
+                        <div className = "d-flex flex-wrap justify-content-center" ></div> {
                             this.state.datasets.map(x => ( <Datasets 
                                 name = {x.name}
                                 table = {x.table}
@@ -100,28 +102,19 @@ class Home extends Component {
                 } 
                         </div> 
                     </div> 
-                </div> 
+                
                 <div className="d-flex flex-wrap justify-content-center">
 
                 <div className="row">
                     <div className="col-12">
-                                <h1>{this.state.dataVis}</h1>
-                                </div>
-                                </div>
-                                <br></br>
-                                <div className="row">
-                                    <div className="col-12">
-                                <h2>{this.state.table}</h2>
-                                {/* <XYFrame name={this.state.dataVis}>
-
-                                </XYFrame> */}
-                                <br></br>
-                                <DataVis
-                                    name={this.state.dataVis}/>
-                            
-                            </div>
-                        </div>
+                                {this.state.data.map(x => ( <DataVis
+                                    name = {x.VECTOR}
+                                    country = {x.COUNTRY}
+                                    />))
+                                    }
                 </div> 
+                </div>
+                </div>
                 </div>
             
     )

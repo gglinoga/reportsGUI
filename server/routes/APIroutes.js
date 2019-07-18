@@ -39,7 +39,7 @@ module.exports = function (app) {
 
     app.get('/api/aegypti', (req, res) => {
         console.log('get all aegypti');
-        knex.select().from('aegypti')
+        knex.select().from('aegypti').groupBy('COUNTRY')
             .then((response, err) => {
                 if (err) throw err;
                 console.log(response);
@@ -47,5 +47,9 @@ module.exports = function (app) {
             }).finally(()=> {
                 console.log('done)');
             })
+    })
+
+    app.get('/api/theaters', (req, res) => {
+        console.log('get all theaters')
     })
 }

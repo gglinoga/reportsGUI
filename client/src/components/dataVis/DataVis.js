@@ -38,11 +38,17 @@ d3.select(".chart")
   .enter().append("div")
     .style("width", function(d) { return x(d) + "px"; })
     .text(function(d) { return d; });
+console.log(x);
+console.log(data);
 
 const DataVis = (props) => (
     <div>
+        <div className='chart'>
+        <p>{props.name}</p>
+        <p>{props.country}</p>
+        </div>
         {/* <h1>chart</h1> */}
-        <div className="chart" style={style.datavis}>
+        {/* <div className="chart" style={style.datavis}> */}
 
             {/* <p>{props.name}</p> */}
 
@@ -50,7 +56,7 @@ const DataVis = (props) => (
         //  <p>{props.name}</p>
         //  <p>{props.table}</p>
         //  </div> */}
-    </div>
+    {/* </div> */}
     </div>
 )
 
