@@ -52,5 +52,13 @@ const frameProps = {   lines: [{ title: "Ex Machina", coordinates: [{ week: 1, g
 }
 
 export default () => {
-  return <XYFrame {...frameProps} />
+  return <XYFrame {...frameProps} 
+  hoverAnnotation={[
+    {
+      type: "highlight",
+      style: { strokeWidth: 10 }
+    }
+  ]}
+  lineIDAccessor="title"
+  />
 }

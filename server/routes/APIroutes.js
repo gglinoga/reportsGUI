@@ -1,7 +1,7 @@
 const knex = require('../db/database.js');
 
 module.exports = function (app) {
-    app.get('/api/FBICrime/states', (req, res) => {
+    app.get('/api/FBICrimestate', (req, res) => {
         console.log('get all states');
         knex.select().from("FBICrimeState")
             .then((response, err) => {
@@ -13,7 +13,7 @@ module.exports = function (app) {
             })
     })
 
-    app.get('/api/mobile_os/usage', (req, res) => {
+    app.get('/api/mobile_os_usage', (req, res) => {
         console.log('get all mobile_os usage');
         knex.select().from("mobile_os_usage")
             .then((response, err) => {
@@ -25,7 +25,7 @@ module.exports = function (app) {
             })
     })
 
-    app.get('/api/home_sales/sales', (req, res) => {
+    app.get('/api/home_sales', (req, res) => {
         console.log('get all home sales');
         knex.select().from('home_sales')
             .then((response, err) => {
@@ -37,7 +37,7 @@ module.exports = function (app) {
             })
     })
 
-    app.get('/api/aegypti/aegypti', (req, res) => {
+    app.get('/api/aegypti', (req, res) => {
         console.log('get all aegypti');
         knex.select().from('aegypti')
             .then((response, err) => {

@@ -21,8 +21,9 @@ const style ={
 }
 
 const Datasets = props => (
-    <div id="card" style={style.card} onClick={()=>props.handleClick(props.name)}>
+    <div id="card" style={style.card} onClick={()=>props.handleClick(props.name, props.table)}>
         <p>{props.name}</p>
+        <p>{props.table}</p>
         {/* <img src={props.img} style = {style.img}></img> */}
     </div>
 )

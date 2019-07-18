@@ -6,10 +6,9 @@ import Navbar from "../Navbar/Navbar.js";
 // import DataVis from "../dataVis/DataVis.js";
 import Modal from "../Modal/Modal.js";
 import XYFrame from "../dataVis/XYFrame.js";
+import DataVis from "../dataVis/DataVis.js";
 
 class Home extends Component {
-
-
 
     state = {
         datasets: [{
@@ -27,10 +26,16 @@ class Home extends Component {
             {
                 'name': 'Theaters',
                 'table': 'theaters'
+            },
+            {
+                'name': 'Aegypti',
+                'table': 'aegypti'
             }
         ],
         dataVis: "Select a data set",
-        show: false
+        table: "n/a",
+        show: false,
+        data: []
     }
 
     showModal = () => {
@@ -41,12 +46,29 @@ class Home extends Component {
         console.log(this.state.show);
     }
 
-    handleClick = (name) => {
+    handleClick = (name, table) => {
         console.log(name)
         this.setState({
-            dataVis: name
+            dataVis: name,
+            table: table
         })
-        this.showModal();
+        console.log(table)
+        console.log(this.state.table)
+        // this.showModal();
+        fetch(`/api/${table}`, {
+            method: 'GET',
+           })
+           .then(res=>{
+               let foo = res.json();
+               foo.then(json=> {
+                //    console.log(json);
+                   this.setState({ data: json})
+                   console.log(this.state.data)
+               })
+           })
+           .catch(err => {
+               if (err) throw err
+           });
     }
 
     componentWillMount() {
@@ -66,12 +88,11 @@ class Home extends Component {
                 <div className = "row" >
                     <div className = "col-12" >
                         <div className = "d-flex flex-wrap justify-content-center" > {
-                            this.state.datasets.map(table => ( <
-                        Datasets name = {
-                            table.name
-                        }
-                        handleClick = {
-                            this.handleClick
+                            this.state.datasets.map(x => ( <Datasets 
+                                name = {x.name}
+                                table = {x.table}
+                                handleClick = {
+                                this.handleClick
                         }
                         // img={table.img}
                         />              
@@ -80,19 +101,29 @@ class Home extends Component {
                         </div> 
                     </div> 
                 </div> 
+                <div className="d-flex flex-wrap justify-content-center">
+
                 <div className="row">
                     <div className="col-12">
-                            <div className="d-flex flex-wrap justify-content-center">
-                                <XYFrame>
+                                <h1>{this.state.dataVis}</h1>
+                                </div>
+                                </div>
+                                <br></br>
+                                <div className="row">
+                                    <div className="col-12">
+                                <h2>{this.state.table}</h2>
+                                {/* <XYFrame name={this.state.dataVis}>
 
-                                </XYFrame>
-                                {/* <DataVis
-                                    name={this.state.dataVis} */}
+                                </XYFrame> */}
+                                <br></br>
+                                <DataVis
+                                    name={this.state.dataVis}/>
                             
                             </div>
                         </div>
-                </div> */
-             </div>
+                </div> 
+                </div>
+            
     )
 }
 

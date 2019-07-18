@@ -16,7 +16,13 @@ const style = {
         // fontSize: "24px",
         // display: "inline-block",
         // zIndex: 50000
-
+        font: "10px sans-serif",
+        backgroundColor: "steelblue",
+        textAlign: "right",
+        padding: "3px",
+        margin: "1px",
+        color: "white",
+      
     }
 }
 
@@ -35,12 +41,16 @@ d3.select(".chart")
 
 const DataVis = (props) => (
     <div>
-        <h1>chart</h1>
-        <div className="chart"></div>
-    {/* // style={style.datavis}>
-    //     <h1>DataVis</h1>
-    //     <p>{props.name}</p>
-    //     <p>{props.table}</p> */}
+        {/* <h1>chart</h1> */}
+        <div className="chart" style={style.datavis}>
+
+            {/* <p>{props.name}</p> */}
+
+        {/* //  <h1>DataVis</h1>
+        //  <p>{props.name}</p>
+        //  <p>{props.table}</p>
+        //  </div> */}
+    </div>
     </div>
 )
 
