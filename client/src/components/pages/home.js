@@ -107,11 +107,17 @@ class Home extends Component {
 
                 <div className="row">
                     <div className="col-12">
-                                {this.state.data.map(x => ( <DataVis
+                                {/* {this.state.data.map(x => ( <DataVis
                                     name = {x.VECTOR}
                                     country = {x.COUNTRY}
                                     />))
-                                    }
+                                    } */}
+                        <DataVis
+
+                        chartData= {this.state.data}
+                        
+                        />
+
                 </div> 
                 </div>
                 </div>

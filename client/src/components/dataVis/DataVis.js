@@ -26,38 +26,55 @@ const style = {
     }
 }
 
-let data = [4, 8, 15, 16, 23, 4, 14, 1];
-console.log('script test')
-let x = d3.scaleLinear()
-    .domain([0, d3.max(data)])
-    .range([0, 420]);
+// let data = [4, 8, 15, 16, 23, 4, 14, 1];
+// console.log('script test')
+// let x = d3.scaleLinear()
+//     .domain([0, d3.max(data)])
+//     .range([0, 420]);
 
-d3.select(".chart")
-  .selectAll("div")
-    .data(data)
-  .enter().append("div")
-    .style("width", function(d) { return x(d) + "px"; })
-    .text(function(d) { return d; });
-console.log(x);
-console.log(data);
+// d3.select(".chart")
+//   .selectAll("div")
+//     .data(data)
+//   .enter().append("div")
+//     .style("width", function(d) { return x(d) + "px"; })
+//     .text(function(d) { return d; });
+// console.log(x);
+// console.log(data);
 
-const DataVis = (props) => (
-    <div>
-        <div className='chart'>
-        <p>{props.name}</p>
-        <p>{props.country}</p>
-        </div>
-        {/* <h1>chart</h1> */}
-        {/* <div className="chart" style={style.datavis}> */}
+class DataVis extends React.Component {
+    render() {
+        // console.log(this.props.chartData)
 
-            {/* <p>{props.name}</p> */}
+        let dataset = this.props.chartData
+        console.log(dataset);
 
-        {/* //  <h1>DataVis</h1>
-        //  <p>{props.name}</p>
-        //  <p>{props.table}</p>
-        //  </div> */}
-    {/* </div> */}
-    </div>
-)
+        return(
+            <div>
+                <h1>DataVis</h1>
+                {/* <p>data{this.props.chartData}</p> */}
+
+            </div>
+        )
+    }
+}
+
+// const DataVis = (props) => (
+//     <div>
+//         <div className='chart'>
+//         {/* <p>{props.name}</p>
+//         <p>{props.country}</p> */}
+//         </div>
+//         {/* <h1>chart</h1> */}
+//         {/* <div className="chart" style={style.datavis}> */}
+
+//             {/* <p>{props.name}</p> */}
+
+//         {/* //  <h1>DataVis</h1>
+//         //  <p>{props.name}</p>
+//         //  <p>{props.table}</p>
+//         //  </div> */}
+//     {/* </div> */}
+//     </div>
+// )
 
 export default DataVis;

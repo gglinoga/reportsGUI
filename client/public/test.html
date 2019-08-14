@@ -16,6 +16,10 @@
   color: white;
 }
 
+.chart:hover{
+  background-color: white;
+}
+
 </style>
 <h1>Bar Chart</h1>
 <div class="chart"></div>
@@ -25,7 +29,7 @@ let data = [4, 8, 15, 16, 23, 4, 14, 1];
 console.log('script test')
 let x = d3.scaleLinear()
     .domain([0, d3.max(data)])
-    .range([0, 420]);
+    .range([0, 1200]);
 
 d3.select(".chart")
   .selectAll("div")
