@@ -3,7 +3,6 @@ import React, {
 } from "react";
 import Datasets from "../datasets/datasets.js";
 import Navbar from "../Navbar/Navbar.js";
-// import DataVis from "../dataVis/DataVis.js";
 // import Modal from "../Modal/Modal.js";
 import XYFrame from "../dataVis/XYFrame.js";
 import DataVis from "../dataVis/DataVis.js";
@@ -31,6 +30,10 @@ class Home extends Component {
             {
                 'name': 'Aegypti',
                 'table': 'aegypti'
+            },
+            {
+                'name': 'Cause of Death',
+                'table': 'death'
             }
         ],
         dataVis: "Select a data set",
@@ -64,7 +67,7 @@ class Home extends Component {
                foo.then(json=> {
                 //    console.log(json);
                    this.setState({ data: json})
-                   console.log(this.state.data)
+                //    console.log(this.state.data)
                })
            })
            .catch(err => {
@@ -112,7 +115,7 @@ class Home extends Component {
                                     country = {x.COUNTRY}
                                     />))
                                     } */}
-                        <DataVis
+                        <DataVis 
 
                         chartData= {this.state.data}
                         

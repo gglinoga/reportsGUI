@@ -13,6 +13,19 @@ module.exports = function (app) {
             })
     })
 
+    app.get('/api/death', (req, res) => {
+        console.log('get all cause of death');
+        knex.select().from('death')
+            .then((response, err) => {
+                if (err) throw err;
+                console.log(response);
+                res.json(response)
+            })
+            .finally(() => {
+                console.log('done')
+            })
+    })
+
     app.get('/api/mobile_os_usage', (req, res) => {
         console.log('get all mobile_os usage');
         knex.select().from("mobile_os_usage")
