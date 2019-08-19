@@ -106,6 +106,129 @@ let deathByYear = (x) => {
     console.log(yearDeath);
 }
 
+let renderGraphs = () => {
+
+    // let data = [100, 200, 300]
+    let data = [{year: 2000, deaths: 100},
+                {year: 2001, deaths: 200},
+                {year: 2002, deaths: 300}    
+    ]
+
+    data=yearDeath
+    console.log(data);
+
+
+    var svgWidth = 500, svgHeight = 500, barPadding = 5;
+    var barWidth = (svgWidth / data.length);
+
+    var svg = d3.select('svg')
+        .attr('width', svgWidth)
+        .attr('height', svgHeight)
+
+
+    let scaleFactor = 
+
+    var barChart = svg.selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('y', (d) => {
+            return (svgHeight-d.deaths)
+        })
+        .attr('height', (d) => {
+            return d.deaths
+        })
+        .attr('width', barWidth - barPadding)
+        .attr('class', 'bar')
+        .attr('transform', (d, i) =>{
+            var translate = [barWidth * i, 0];
+            return "translate(" + translate +")";
+        });
+
+    var text = svg.selectAll('text')
+        .data(data)
+        .enter()
+        .append("text")
+        .text((d)=>{
+            return d.deaths
+        })
+        .attr('y', (d, i)=>{
+            return svgHeight-d.deaths-2;
+        })
+        .attr('x', (d, i)=> {
+            return barWidth*i;
+        })
+        .attr('fill', '#A64C38')
+
+
+    // console.log('renderGraphs');
+    // let data = yearDeath;
+
+    // console.log(data);
+
+    // let data = yearDeath;
+    // var svgWidth = 500, svgHeight = 300, barPadding = 5;
+    // var barWidth = (svgWidth / data.length);
+
+    
+    // var svg = d3.select('svg');
+    // svg.size();
+
+    // var rects = svg.selectAll('rect')
+    //     .data(data);
+
+    // var newRects = rects.enter();
+
+    // var maxCount = d3.max(data, (d, i)=> {
+    //     return d.deaths;
+    // })
+
+
+    // var x = d3.scaleLinear()
+    //     .range([0, 300])
+    //     .domain([0, maxCount]);
+    // var y = d3.scaleBand()
+    //     .rangeRound([0, 50])
+    //     .domain(data.map((d, i)=> {
+    //         return d.year
+    //     }))
+  
+    // newRects.append('rect')
+    //     .attr('x', x(0))
+    //     .attr('y', (d, i)=> {
+    //         return y(d.year)
+    //     })
+    //     .attr('height', y.rangeRound([0, 50]))
+    //     .attr('width', (d, i) => {
+    //         return x(d.deaths);
+    //     });
+
+
+
+
+    // var yScale = d3.scaleLinear()
+    //     .domain([0, d3.max(data.deaths)])
+    //     .range([0, svgHeight]);
+            
+    // var barChart = svg.selectAll("rect")
+    //     .data(data)
+    //     .enter()
+    //     .append("rect")
+    //     .attr("y", function(d) {
+    //          return svgHeight - yScale(d) 
+    //     })
+    //     .attr("height", function(d) { 
+    //         return yScale(d); 
+    //     })
+    //     .attr("width", barWidth - barPadding)
+    //     .attr("transform", function (d, i) {
+    //         var translate = [barWidth * i, 0]; 
+    //         return "translate("+ translate +")";
+    //     });
+
+
+}
+
 let extractDeaths = (x) => {
     for(let i = 0; i<x.length; i++){
         if (states.indexOf(x[i].State)===-1){
@@ -121,7 +244,7 @@ let extractDeaths = (x) => {
     deathByState(states);
     deathByCause(causes);
     deathByYear(years)
-
+    renderGraphs();
     // if (states){
     // states.map(deathByState(dataset))
     // };
@@ -148,14 +271,15 @@ class DataVis extends React.Component {
             }
         }
 
-        if (yearDeath>0){
+
+        if (data) {
         data = yearDeath;
-        console.log(data);
+        console.log('data');
     
 
         var svgWidth = 500, svgHeight = 300, barPadding = 5;
         var barWidth = (svgWidth / data.length);
-        
+    
         
         var svg = d3.select('svg')
             .attr("width", svgWidth)
@@ -180,37 +304,18 @@ class DataVis extends React.Component {
                 var translate = [barWidth * i, 0]; 
                 return "translate("+ translate +")";
             });
+        
         }
+        
         
         return(
             <div >
                 <h1>DataVis</h1>
                 <svg className="bar-chart"></svg>
                 
-                {/* <p>data{this.props.chartData}</p> */}
-
             </div>
         )
     }
 }
-
-// const DataVis = (props) => (
-//     <div>
-//         <div className='chart'>
-//         {/* <p>{props.name}</p>
-//         <p>{props.country}</p> */}
-//         </div>
-//         {/* <h1>chart</h1> */}
-//         {/* <div className="chart" style={style.datavis}> */}
-
-//             {/* <p>{props.name}</p> */}
-
-//         {/* //  <h1>DataVis</h1>
-//         //  <p>{props.name}</p>
-//         //  <p>{props.table}</p>
-//         //  </div> */}
-//     {/* </div> */}
-//     </div>
-// )
 
 export default DataVis;
