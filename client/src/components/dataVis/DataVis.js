@@ -126,14 +126,14 @@ let renderGraphs = () => {
         .attr('height', svgHeight)
 
 
-    let scaleFactor = 
+    let sf = (500/10000000);
 
     var barChart = svg.selectAll('rect')
         .data(data)
         .enter()
         .append('rect')
         .attr('y', (d) => {
-            return (svgHeight-d.deaths)
+            return svgHeight-(sf*d.deaths)
         })
         .attr('height', (d) => {
             return d.deaths
@@ -153,7 +153,7 @@ let renderGraphs = () => {
             return d.deaths
         })
         .attr('y', (d, i)=>{
-            return svgHeight-d.deaths-2;
+            return svgHeight-(sf*d.deaths)-2;
         })
         .attr('x', (d, i)=> {
             return barWidth*i;
