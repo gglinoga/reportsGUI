@@ -106,126 +106,112 @@ let deathByYear = (x) => {
     console.log(yearDeath);
 }
 
+
 let renderGraphs = () => {
 
     // let data = [100, 200, 300]
-    let data = [{year: 2000, deaths: 100},
-                {year: 2001, deaths: 200},
-                {year: 2002, deaths: 300}    
-    ]
-
-    data=yearDeath
-    console.log(data);
-
-
-    var svgWidth = 500, svgHeight = 500, barPadding = 5;
-    var barWidth = (svgWidth / data.length);
-
-    var svg = d3.select('svg')
-        .attr('width', svgWidth)
-        .attr('height', svgHeight)
-
-
-    let sf = (500/10000000);
-
-    var barChart = svg.selectAll('rect')
-        .data(data)
-        .enter()
-        .append('rect')
-        .attr('y', (d) => {
-            return svgHeight-(sf*d.deaths)
-        })
-        .attr('height', (d) => {
-            return d.deaths
-        })
-        .attr('width', barWidth - barPadding)
-        .attr('class', 'bar')
-        .attr('transform', (d, i) =>{
-            var translate = [barWidth * i, 0];
-            return "translate(" + translate +")";
-        });
-
-    var text = svg.selectAll('text')
-        .data(data)
-        .enter()
-        .append("text")
-        .text((d)=>{
-            return d.deaths
-        })
-        .attr('y', (d, i)=>{
-            return svgHeight-(sf*d.deaths)-2;
-        })
-        .attr('x', (d, i)=> {
-            return barWidth*i;
-        })
-        .attr('fill', '#A64C38')
-
-
-    // console.log('renderGraphs');
-    // let data = yearDeath;
-
-    // console.log(data);
-
-    // let data = yearDeath;
-    // var svgWidth = 500, svgHeight = 300, barPadding = 5;
-    // var barWidth = (svgWidth / data.length);
-
+    let data
     
-    // var svg = d3.select('svg');
-    // svg.size();
+//     dataset = [{
+//         year: 2001,
+//         state: "California"
+//     },
+//     {
+//         year: 2002,
+//         state: "Washington"
+//     },
+//     {
+//         year: 2002,
+//         state: "California"
+//     }
+// ]
 
-    // var rects = svg.selectAll('rect')
-    //     .data(data);
+    data=causeDeath.splice(0, 9)
+    console.log(data)
+    console.log(dataset);
+    let datasetCF = crossfilter(dataset)
+    var count = datasetCF.groupAll().reduceCount().value();
+    console.log(count)
 
-    // var newRects = rects.enter();
+    let barChart = dc.barChart('#line');
+    let pieChart = dc.pieChart('#pie');
 
-    // var maxCount = d3.max(data, (d, i)=> {
-    //     return d.deaths;
-    // })
+    let yearDimension = datasetCF.dimension((d) => {
+        return ~~((Date.now() - new Date(datasetCF.Year)) / (1))
+    });
+
+    let yearGroup = yearDimension.group().reduceCount();
+
+    let causeDimension = datasetCF.dimension((d)=> {
+        return d.Cause
+    })
+
+    let causeGroup = causeDimension.group().reduceCount();
+    // console.log(causeGroup);
+
+    barChart
+   .width(400)
+   .height(200)
+   .x(d3.scaleLinear().domain([15,70]))
+   .yAxisLabel("Count")
+   .xAxisLabel("Age")
+   .elasticY(true)
+   .elasticX(true)
+   .dimension(yearDimension)
+   .group(yearGroup);
+
+   pieChart
+   .width(200)
+   .height(100)
+   .dimension(causeDimension)
+   .group(causeGroup)
+
+   console.log('render');
+   barChart.render()
+   pieChart.render()
 
 
-    // var x = d3.scaleLinear()
-    //     .range([0, 300])
-    //     .domain([0, maxCount]);
-    // var y = d3.scaleBand()
-    //     .rangeRound([0, 50])
-    //     .domain(data.map((d, i)=> {
-    //         return d.year
-    //     }))
-  
-    // newRects.append('rect')
-    //     .attr('x', x(0))
-    //     .attr('y', (d, i)=> {
-    //         return y(d.year)
-    //     })
-    //     .attr('height', y.rangeRound([0, 50]))
-    //     .attr('width', (d, i) => {
-    //         return x(d.deaths);
-    //     });
+//     var svgWidth = 500, svgHeight = 500, barPadding = 5;
+//     var barWidth = (svgWidth / data.length);
+
+//     var svg = d3.select('svg')
+//         .attr('width', svgWidth)
+//         .attr('height', svgHeight)
 
 
+//     let sf = (200/10000000);
+
+//     var barChart = svg.selectAll('rect')
+//         .data(data)
+//         .enter()
+//         .append('rect')
+//         .attr('y', (d) => {
+//             return svgHeight-(sf*d.deaths)
+//         })
+//         .attr('height', (d) => {
+//             return d.deaths
+//         })
+//         .attr('width', barWidth - barPadding)   
+//         .attr('class', 'bar')
+//         .attr('transform', (d, i) =>{
+//             var translate = [barWidth * i, 0];
+//             return "translate(" + translate +")";
+//         });
 
 
-    // var yScale = d3.scaleLinear()
-    //     .domain([0, d3.max(data.deaths)])
-    //     .range([0, svgHeight]);
-            
-    // var barChart = svg.selectAll("rect")
-    //     .data(data)
-    //     .enter()
-    //     .append("rect")
-    //     .attr("y", function(d) {
-    //          return svgHeight - yScale(d) 
-    //     })
-    //     .attr("height", function(d) { 
-    //         return yScale(d); 
-    //     })
-    //     .attr("width", barWidth - barPadding)
-    //     .attr("transform", function (d, i) {
-    //         var translate = [barWidth * i, 0]; 
-    //         return "translate("+ translate +")";
-    //     });
-
+//     var text = svg.selectAll('text')
+//         .data(data)
+//         .enter()
+//         .append("text")
+//         .text((d)=>{
+//             return d.cause
+//         })
+//         .attr('y', 350)
+//         .attr('x', -330)
+//         .attr('fill', '#FFFFFF')
+//         .classed('rotation', true)
+//         .attr('transform', (d,i)=>{
+//             return 'translate( '+(barWidth*i)+'),'+'rotate(-45)';})
 
 }
 
@@ -254,64 +240,29 @@ let extractDeaths = (x) => {
 class DataVis extends React.Component {
     render() {
 
-        let data;
         dataset = this.props.chartData
 
         if (!dataset[0]){
-            console.log('no dataset')
+            // console.log('no dataset')
         }
         else {
             if(dataset[0].State){
                 console.log('US Cause of Death');
-                extractDeaths(dataset);
+                // extractDeaths(dataset);
                 // deathByState(dataset);
+                renderGraphs();
             }
             if(dataset[0].country){
                 console.log('Aegypti');
             }
         }
-
-
-        if (data) {
-        data = yearDeath;
-        console.log('data');
-    
-
-        var svgWidth = 500, svgHeight = 300, barPadding = 5;
-        var barWidth = (svgWidth / data.length);
-    
-        
-        var svg = d3.select('svg')
-            .attr("width", svgWidth)
-            .attr("height", svgHeight);
-            
-        var yScale = d3.scaleLinear()
-            .domain([0, d3.max(data.deaths)])
-            .range([0, svgHeight]);
-                
-        var barChart = svg.selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("y", function(d) {
-                 return svgHeight - yScale(d) 
-            })
-            .attr("height", function(d) { 
-                return yScale(d); 
-            })
-            .attr("width", barWidth - barPadding)
-            .attr("transform", function (d, i) {
-                var translate = [barWidth * i, 0]; 
-                return "translate("+ translate +")";
-            });
-        
-        }
         
         
         return(
             <div >
-                <h1>DataVis</h1>
                 <svg className="bar-chart"></svg>
+                <svg id='line'></svg>
+                <svg id='pie'></svg>
                 
             </div>
         )
