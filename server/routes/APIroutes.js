@@ -1,6 +1,12 @@
 const knex = require('../db/database.js');
+const states = require('../us-states.json');
 
 module.exports = function (app) {
+    app.get('/states/us-states.json', (req, res) => {
+        console.log('get states json');
+        return states
+    })
+
     app.get('/api/FBICrimestate', (req, res) => {
         console.log('get all states');
         knex.select().from("FBICrimeState")

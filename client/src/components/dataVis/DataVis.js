@@ -4,6 +4,7 @@ import dc from "dc";
 import crossfilter from 'crossfilter';
 import fs from 'fs';
 import { xyDownloadMapping } from "semiotic/lib/downloadDataMapping";
+import states from './states/us-states.json';
 
 const style = {
     datavis: {
@@ -26,17 +27,19 @@ const style = {
         padding: "3px",
         margin: "1px",
         color: "white",
+        width: "100%",
+        height: '100%',
       
     }
 }
 let sample = [1,2,3,4,5];
 let dataset = []
-let states = []
 let causes = []
 let years = []
 let stateDeath = [];
 let causeDeath = [];
 let yearDeath = [];
+
 
 function State(state, deaths) {
     this.stateName = state;
@@ -126,49 +129,139 @@ let renderGraphs = () => {
 //     }
 // ]
 
-    data=causeDeath.splice(0, 9)
-    console.log(data)
     console.log(dataset);
+
+   
+    dataset = dataset.filter((x)=> {
+        return !x.Cause.includes('All causes');
+    })
+
+    console.log(dataset);
+
     let datasetCF = crossfilter(dataset)
     var count = datasetCF.groupAll().reduceCount().value();
     console.log(count)
 
     let barChart = dc.barChart('#line');
     let pieChart = dc.pieChart('#pie');
+    let countChart = dc.dataCount('#count');
+    let gridChart = dc.dataGrid('#grid');
+    let mapChart
+    
+    let deathsCount = datasetCF.groupAll().reduceSum((d)=>{return d.Deaths}).value();
+    console.log(deathsCount);
+    console.log(datasetCF.groupAll().reduceCount().value())
+
+    let deathsDimension = datasetCF.dimension((d)=>{
+        return d.Deaths
+    })
+
+
+    let deathsGroup = deathsDimension.group().reduceCount();
+
+    let stateDimension = datasetCF.dimension((d)=> {
+        return d.State
+    })
+
+    let stateGroup = stateDimension.group().reduceCount();
 
     let yearDimension = datasetCF.dimension((d) => {
-        return ~~((Date.now() - new Date(datasetCF.Year)) / (1))
+        return d.Year
     });
+
+    console.log(yearDimension);
 
     let yearGroup = yearDimension.group().reduceCount();
 
     let causeDimension = datasetCF.dimension((d)=> {
-        return d.Cause
+        return d.Cause;
     })
 
     let causeGroup = causeDimension.group().reduceCount();
-    // console.log(causeGroup);
 
+    let deathsByYear = yearDimension.group().reduceSum((d) => {
+        return  d.Deaths;
+    })
+
+    let deathsByCause = causeDimension.group().reduceSum((d) => {
+        return d.Deaths;
+    })
+
+    let deathsByState = stateDimension.group().reduceSum((d)=> {
+        return d.Deaths;
+    })
+
+    // console.log(causeGroup);
+    d3.json('/states/us-states.json', function(error, jsonData){
+        console.log('jsonData')
+        console.log(jsonData)
+        var centre = d3.geoCentroid(jsonData);
+        var projection = d3.geoMercator().center(centre).scale(500).translate([200,100]);
+
+        mapChart = dc.geoChoroplethChart('#map')
+        .width(400)
+        .height(400)
+        .dimension(stateDimension)
+        .projection(projection)
+        .group(deathsByState)
+        .overlayGeoJson(jsonData.features, 'State', (d)=> { return d.properties.name })
+        .colors(d3.scaleQuantize().range(["#E2F2FF","#C4E4FF","#9ED2FF","#81C5FF","#6BBAFF","#51AEFF","#36A2FF","#1E96FF","#0089FF","#0061B5"]))
+        .colorDomain([0,200])
+        .colorCalculator(function(d){ return d ? mapChart.colors()(d) : '#ccc'; });
+    })
+
+
+
+    
     barChart
    .width(400)
-   .height(200)
+   .height(400)
    .x(d3.scaleLinear().domain([15,70]))
-   .yAxisLabel("Count")
-   .xAxisLabel("Age")
+   .yAxisLabel("Deaths")
+   .xAxisLabel("Year")
    .elasticY(true)
    .elasticX(true)
    .dimension(yearDimension)
-   .group(yearGroup);
+   .group(deathsByYear);
 
    pieChart
-   .width(200)
-   .height(100)
+   .width(400)
+   .height(400)
    .dimension(causeDimension)
-   .group(causeGroup)
+   .group(deathsByCause)
+
+//    mapChart
+//    .width(400)
+//    .height(400)
+//    .dimension(stateDimension)
+//    .group(deathsByState)
+
+   countChart
+   .dimension(datasetCF)
+   .group(datasetCF.groupAll());
+
+   gridChart
+   .dimension(yearDimension)
+   .section(deathsByYear)
+   .size(100)
+   .htmlSection (function(d) { 
+      return 'Year: ' + d.Year +
+      '; Deaths: ' + d.Deaths
+   })
+   .html (function(d) { return d.Cause; })
+   .sortBy(function (d) {
+      return d.Cause;
+   })
+   .order(d3.ascending);
 
    console.log('render');
    barChart.render()
    pieChart.render()
+   countChart.render()
+//    mapChart.render()
+//    gridChart.render()
+
+
 
 
 //     var svgWidth = 500, svgHeight = 500, barPadding = 5;
@@ -237,6 +330,12 @@ let extractDeaths = (x) => {
 
 }
 
+let clickHandler = () => {
+    console.log('reset');
+    // dc.filterAll()
+    // dc.renderAll()
+}
+
 class DataVis extends React.Component {
     render() {
 
@@ -252,17 +351,23 @@ class DataVis extends React.Component {
                 // deathByState(dataset);
                 renderGraphs();
             }
-            if(dataset[0].country){
-                console.log('Aegypti');
-            }
+            // if(dataset[0].country){
+            //     console.log('Aegypti');
+            // }
         }
         
         
         return(
             <div >
                 <svg className="bar-chart"></svg>
-                <svg id='line'></svg>
-                <svg id='pie'></svg>
+                <div id='line'></div>
+                <div id='pie'></div>
+                <div id='map'></div>
+                <div id = "count" className = "dc-data-count" style = {{float: 'right'}}>
+               <span className = "filter-count"></span> selected out of <span
+                  className = "total-count"></span> <div >Reset All</div>
+            </div>
+
                 
             </div>
         )
