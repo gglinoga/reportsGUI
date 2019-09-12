@@ -130,7 +130,6 @@ let renderGraphs = () => {
 // ]
 
     console.log(dataset);
-
    
     dataset = dataset.filter((x)=> {
         return !x.Cause.includes('All causes');
@@ -210,14 +209,12 @@ let renderGraphs = () => {
         .colorCalculator(function(d){ return d ? mapChart.colors()(d) : '#ccc'; });
     })
 
-
-
-    
+   
     barChart
-   .width(400)
+   .width(600)
    .height(400)
-   .x(d3.scaleLinear().domain([15,70]))
-   .yAxisLabel("Deaths")
+   .x(d3.scaleLinear().domain([10,100]))
+   .yAxisLabel("")
    .xAxisLabel("Year")
    .elasticY(true)
    .elasticX(true)
@@ -225,7 +222,7 @@ let renderGraphs = () => {
    .group(deathsByYear);
 
    pieChart
-   .width(400)
+   .width(600)
    .height(400)
    .dimension(causeDimension)
    .group(deathsByCause)
