@@ -227,11 +227,7 @@ let renderGraphs = () => {
    .dimension(causeDimension)
    .group(deathsByCause)
 
-//    mapChart
-//    .width(400)
-//    .height(400)
-//    .dimension(stateDimension)
-//    .group(deathsByState)
+
 
    countChart
    .dimension(datasetCF)
