@@ -227,8 +227,6 @@ let renderGraphs = () => {
    .dimension(causeDimension)
    .group(deathsByCause)
 
-
-
    countChart
    .dimension(datasetCF)
    .group(datasetCF.groupAll());
