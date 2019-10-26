@@ -30,6 +30,9 @@ const style = {
         width: "100%",
         height: '100%',
       
+    },
+    mapid: {
+        height: "180px"
     }
 }
 let sample = [1,2,3,4,5];
@@ -39,6 +42,8 @@ let years = []
 let stateDeath = [];
 let causeDeath = [];
 let yearDeath = [];
+
+// var mymap = L.map('mapid').setView([51.505, -0.09], 13);
 
 
 function State(state, deaths) {
@@ -354,6 +359,7 @@ class DataVis extends React.Component {
                 <div id='line'></div>
                 <div id='pie'></div>
                 <div id='map'></div>
+                <div id='mapid' style={style.mapid}></div>
                 <div id = "count" className = "dc-data-count" style = {{float: 'right'}}>
                <span className = "filter-count"></span> selected out of <span
                   className = "total-count"></span> <div >Reset All</div>
